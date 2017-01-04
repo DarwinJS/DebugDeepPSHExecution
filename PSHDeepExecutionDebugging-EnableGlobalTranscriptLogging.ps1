@@ -14,6 +14,14 @@ that log the commands and outputs of PowerShell script execution in almost any e
 context - include embedded contexts like custom PowerShell hosting and dynamic programmatic
 execution of PowerShell by other languages like C#.
 
+This code is meant to be setup for execution when you are dealing with problems in
+a deep run environment and then removed once you're done debugging.
+
+If your organization has these same values defined in local or AD group policy, then
+those settings will override the settings of this script at your GPO enforcement 
+interval (default is every 90 minutes) - in most cases this should not interfere with 
+briefly testing a script.
+
 Tested and working on: Windows
 
 #>
