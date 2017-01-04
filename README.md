@@ -1,7 +1,14 @@
 # DebugDeepPSHExecution
 Code that helps you debug problems that occur when PowerShell is initiated in a deep or indirect call stack.
 
-Some possible challenges that can be uncovered with these scripts:
+It can be pretty frustrating to try to debug or diagnose PowerShell code that that is initiated in call stacks like these:
+* Packer => Remote Execution => PowerShell
+* Chef Service => Ruby => PowerShell
+* Packer => Remote Execution => Chef => Ruby => PowerShell
+* CloudFormation => cfn-init => PowerShell
+* SCCM Package Pushes
+
+Here is a list of potential challenges that can be uncovered with these scripts. ( These are not theoretical challenges - I have personally experienced many of them):
 * **Unexpected execution bitness**: script executes as 32-bit when expecting 64-bit or vice versa - for instance SCCM 2012 "Package" objects run as 32-bit and "Application" objects run as 64-bit.
 * **Unexpected or unknown user context**: script is executed by a user id that you are not expecting - for instance, cloud formation initiates scripts to run under the "Administrator" user even though the ec2config service runs under the system account.
 * **Unexpected absence of environment variables**: when powershell runs under specific contexts, such as under a service or a special system account, some environment variables may not be present.
