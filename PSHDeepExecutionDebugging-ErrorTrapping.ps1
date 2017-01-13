@@ -30,8 +30,13 @@ Trap {
   {
     Write-Host "We are running on Linux, setting up TEMP environment variable"
     $env:temp = '/tmp'
+    $templocation = $env:temp
   }
-  $dumpfile = "$env:temp\$(split-path -leaf $myinvocation.mycommand.definition)_$(Get-date -format 'yyyyMMddhhmmss').log"
+  Else
+  {
+  $templocation = "$env:windir\temp" #use $env:temp if you might be running under a non-admin user - log location will vary by user
+  }
+  $dumpfile = "$templocation\$(split-path -leaf $myinvocation.mycommand.definition)_$(Get-date -format 'yyyyMMddhhmmss').log"
   'Below is the contents of the entire `$error object.  It includes errors that your code may have already handled.' | out-string | out-file $dumpfile -encoding ascii
   'The last error in the list may be a symptom of an earlier error - read carefully :) ' | out-string | out-file $dumpfile -Append -encoding ascii
   $Error | fl * -force | out-string | out-file $dumpfile -Append -encoding ascii
