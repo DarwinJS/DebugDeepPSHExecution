@@ -28,3 +28,7 @@ Some of these problems are made worse if PowerShell is running as part of operat
 * **Unexpected or unknown PowerShell engine hosting**: for instance, Chocolatey 0.10.0 and later defaults to hosting powershell itself, rather than handing off to "powershell.exe" to be the PowerShell host.
 
 #The Scripts
+* PSHDeepExecutionDebugging-DumpRunEnvironment.ps1
+  * Used to discover many details about the run environment.  In the perfect world I would run this as the first script when trying to run PowerShell in a new run context for the first time.
+* PSHDeepExecutionDebugging-EnableGlobalTranscriptLogging.ps1
+* PSHDeepExecutionDebugging-ErrorTrapping.ps1
