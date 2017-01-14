@@ -20,9 +20,9 @@ Tested and working on: Windows and PowerShell Core for Linux
 
 #serialize the output file
 $RunningOnWindows = $true
-If ((!(Test-Path variable:IsWindows)) -AND (!IsWindows))
+If ((!(Test-Path variable:IsWindows)) -AND (!$IsWindows))
 {
-  Write-Host "We are running on Linux, setting up TEMP environment variable"
+  # running on PowerShell Core, setting up TEMP environment variable
   $env:temp = '/tmp'
   $env:computername = hostname
   $env:computername = ($env:computername).split('.')[0]
@@ -31,6 +31,9 @@ If ((!(Test-Path variable:IsWindows)) -AND (!IsWindows))
 #Keep in mind that on windows temp folder is "per-user profile" - so the file may
 #not be in the temp folder of the user you logon as to retrieve the file.
 $outputfile = "$env:temp\RunEnvDetails_$(Get-date -format 'yyyyMMddhhmmss').txt"
+
+If ((!(Test-Path variable:IsCoreCLR)) -AND ($IsCoreCLR))
+{ $PowerShellEdition = "Core" } Else { $PowerShellEdition = "Regular (Not Core)" }
 
 "Original File name: `"$outputfile`"" | out-string | out-file -append $outputfile -encoding ascii
 
@@ -60,6 +63,8 @@ If ([System.IntPtr]::Size -eq 8)
 {
   $PROCBitness = 64
 }
+
+"PowerShell Edition: $PowerShellEdition" | out-file -append $outputfile -encoding ascii
 
 "Bitness / Architecture of the   OS    PowerShell is running on: $OSBitness" | out-file -append $outputfile -encoding ascii
 
