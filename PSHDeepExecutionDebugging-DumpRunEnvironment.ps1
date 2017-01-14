@@ -27,6 +27,12 @@ If ((!(Test-Path variable:IsWindows)) -AND (!$IsWindows))
   $env:computername = hostname
   $env:computername = ($env:computername).split('.')[0]
   $RunningOnWindows = $false
+  $OSFamily = 'Windows'
+}
+Else
+{
+  If ($IsLinux) {$OSFamily = 'Linux'}
+  If ($IsOSX) {$OSFamily = 'OSX'}
 }
 #Keep in mind that on windows temp folder is "per-user profile" - so the file may
 #not be in the temp folder of the user you logon as to retrieve the file.
@@ -63,6 +69,8 @@ If ([System.IntPtr]::Size -eq 8)
 {
   $PROCBitness = 64
 }
+
+"OS Family: $OSFamily" | out-file -append $outputfile -encoding ascii
 
 "PowerShell Edition: $PowerShellEdition" | out-file -append $outputfile -encoding ascii
 
