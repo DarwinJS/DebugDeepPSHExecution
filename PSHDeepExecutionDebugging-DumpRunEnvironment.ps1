@@ -20,7 +20,7 @@ Tested and working on: Windows and PowerShell Core for Linux
 
 #serialize the output file
 $RunningOnWindows = $true
-If ((!(Test-Path env:temp)) -AND (Test-Path '/tmp'))
+If ((!(Test-Path variable:IsWindows)) -AND (!IsWindows))
 {
   Write-Host "We are running on Linux, setting up TEMP environment variable"
   $env:temp = '/tmp'
