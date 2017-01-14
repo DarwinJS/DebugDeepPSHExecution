@@ -1,4 +1,4 @@
-# Blind Debugging of Deep PowerShell Execution
+#Blind Debugging of Deep PowerShell Execution
 
 It can be pretty frustrating to try to debug or diagnose PowerShell code that that is initiated in call stacks like these:
 * Packer => Remote Execution => PowerShell
@@ -15,7 +15,7 @@ In my experience, I spend a disproportionate amount of time initially learning t
 
 Below is a list of challenges that can be uncovered with these scripts.  These are not theoretical challenges - I have personally experienced many of them.  In most cases finding these items was a surprise.  I don't use the list as a set of hypothesis.  Instead, my hypothesis is simply "if it is a deep or blind execution context - something unexpected might be happening"  Then I just start dumping information and ensuring I can record errors and look through.
 
-Some of these problems are made worse if you are taking a clean or newly booted operating system instance and building upon it.  There can be special conditions on the first reboot.
+Some of these problems are made worse if PowerShell is running as part of operating System or software deployment automation.  There can be special conditions on the first reboot.
 
 * **Unexpected / unknown / misconfigured execution bitness**: script executes as 32-bit when expecting 64-bit or vice versa. Some execution agents may be coded to specifically choose a bitness.  Execution under services will default to the bitness of the service - for instance SCCM 2012 "Package" objects run as 32-bit and "Application" objects run as 64-bit.  Many management agents for Windows are 32-bit even when installed on 64-bit Windows.
 * **Unexpected / unknown / misconfigured user context**: script is executed by a user id that you are not expecting - for instance, cloud formation initiates scripts to run under the "Administrator" user even though the ec2config service runs under the system account.  Machine group policies run as the system account.
@@ -26,3 +26,5 @@ Some of these problems are made worse if you are taking a clean or newly booted 
 * **Unexpected or unknown dynamic code execution**: some exes may contain and dynamically execute PowerShell code.
 * **Unexpected or unknown reboot pending**: especially in cases where a machine build is laying down many subsequent layers of software and configuration changes, conditions can arise where a pending reboot affects deep execution more than foreground execution.  These conditions may give rise to requiring a reboot only when executing in the deep call stack.  Here the same example of system path changes or other environment variable changes not propagating until reboot also apply.  I have also seen situations where the WebAdministration PowerShell module can only be loaded at it's full path location, not with a relative reference when trying to use it immediately after installing the web-server feature.
 * **Unexpected or unknown PowerShell engine hosting**: for instance, Chocolatey 0.10.0 and later defaults to hosting powershell itself, rather than handing off to "powershell.exe" to be the PowerShell host.
+
+#The Scripts
