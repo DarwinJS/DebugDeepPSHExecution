@@ -1,4 +1,4 @@
-# DebugDeepPSHExecution
+# Blind Debugging of Deep PowerShell Execution
 Code that helps you debug problems that occur when PowerShell is initiated in a deep or indirect call stack where you are running blind because you are unable to easily view the process or results of execution.
 
 It can be pretty frustrating to try to debug or diagnose PowerShell code that that is initiated in call stacks like these:
