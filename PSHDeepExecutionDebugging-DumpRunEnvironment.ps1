@@ -49,17 +49,18 @@ $OSBitness = 32 #Default
 If (!$RunningOnWindows)
 {
   'Windows security token information for this process: ' | out-file -append $outputfile -encoding ascii
-  whoami /all | out-file -append $outputfile -encoding ascii
+  $loggedonuserdetails = whoami /all
 
   'Parent process for this process: ' | out-file -append $outputfile -encoding ascii
   get-process -id (Get-WmiObject -Query "select * from Win32_Process where Handle=$pid" ).Parentprocessid | select * | fl >> $outputfile
 
   If ((uname -u) -ilike '*64*')
   {$OSBitness = 64}
-
 }
 Else
 {
+  $loggedonuserdetails = 'Groups:'
+  $loggedonuserdetails += id -Gn
   If ($env:PROCESSOR_ARCHITECTURE -ilike '*64*')
   {$OSBitness = 64}
 }
@@ -78,14 +79,13 @@ By Darwin Sanoy
 Runs on Windows and PowerShell Core (Linux / OSX)
 Project and Updated Code: https://github.com/DarwinJS/DebugDeepPSHExecution
 ******************************************************************************
+
 "@ | out-file -append $outputfile -encoding ascii
 
 "OS Family: $OSFamily" | out-file -append $outputfile -encoding ascii
-
 "PowerShell Edition: $PowerShellEdition" | out-file -append $outputfile -encoding ascii
-
+"Running as User $env:username"  | out-file -append $outputfile -encoding ascii
 "Bitness / Architecture of the   OS    PowerShell is running on: $OSBitness" | out-file -append $outputfile -encoding ascii
-
 "Bitness / Architecture of the PROCESS PowerShell is running in: $ProcBitness" | out-file -append $outputfile -encoding ascii
 
 'PowerShell Invocation Object for this process: ' | out-file -append $outputfile -encoding ascii
@@ -102,6 +102,9 @@ gci env: | out-string | out-file -append $outputfile -encoding ascii
 
 'PowerShell variables for this process: ' | out-file -append $outputfile -encoding ascii
 gci variable: | out-string | out-file -append $outputfile -encoding ascii
+
+'Detailed User Info for PowerShell Process User:' | out-file -append $outputfile -encoding ascii
+$logonuserdetails  | out-file -append $outputfile -encoding ascii
 
 Write-Output "Environment Details were output to: $outputfile"
 
