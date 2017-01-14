@@ -70,6 +70,16 @@ If ([System.IntPtr]::Size -eq 8)
   $PROCBitness = 64
 }
 
+@"
+******************************************************************************
+PowerShell Environment Dump for understanding and debugging deep 
+  or alternate run environments for PowerShell.
+By Darwin Sanoy
+Runs on Windows and PowerShell Core (Linux / OSX)
+Project and Updated Code: https://github.com/DarwinJS/DebugDeepPSHExecution
+******************************************************************************
+"@ | out-file -append $outputfile -encoding ascii
+
 "OS Family: $OSFamily" | out-file -append $outputfile -encoding ascii
 
 "PowerShell Edition: $PowerShellEdition" | out-file -append $outputfile -encoding ascii
