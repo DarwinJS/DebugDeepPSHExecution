@@ -32,7 +32,7 @@ If ((!(Test-Path variable:IsWindows)) -AND (!$IsWindows))
 #not be in the temp folder of the user you logon as to retrieve the file.
 $outputfile = "$env:temp\RunEnvDetails_$(Get-date -format 'yyyyMMddhhmmss').txt"
 
-If ((!(Test-Path variable:IsCoreCLR)) -AND ($IsCoreCLR))
+If (((Test-Path variable:IsCoreCLR)) -AND ($IsCoreCLR))
 { $PowerShellEdition = "Core" } Else { $PowerShellEdition = "Regular (Not Core)" }
 
 "Original File name: `"$outputfile`"" | out-string | out-file -append $outputfile -encoding ascii
