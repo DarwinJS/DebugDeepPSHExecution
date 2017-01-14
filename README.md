@@ -29,6 +29,8 @@ Some of these problems are made worse if PowerShell is running as part of operat
 
 #The Scripts
 * PSHDeepExecutionDebugging-DumpRunEnvironment.ps1
-  * Used to discover many details about the run environment.  In the perfect world I would run this as the first script when trying to run PowerShell in a new run context for the first time.
+  * Tested On: Windows and Linux
+  * Usage: Run on it's own as a "script" or "job" in the deep execution context and examine the output.
+  * Description: Used to discover many details about the run environment.  In the perfect world I would run this as the first script when trying to run PowerShell in a new run context for the first time, but I usually end up running it after my powershell code acts in unexpected ways.
 * PSHDeepExecutionDebugging-EnableGlobalTranscriptLogging.ps1
 * PSHDeepExecutionDebugging-ErrorTrapping.ps1
