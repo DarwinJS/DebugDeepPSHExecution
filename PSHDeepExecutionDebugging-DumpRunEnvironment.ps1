@@ -95,4 +95,4 @@ gci variable: | out-string | out-file -append $outputfile -encoding ascii
 
 Write-Output "Environment Details were output to: $outputfile"
 
-Get-content $outputfile
+Write-output (Get-content $outputfile)  #emit all the data in case the calling system is smart enough to record it directly.
