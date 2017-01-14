@@ -36,14 +36,34 @@ $outputfile = "$env:temp\RunEnvDetails_$(Get-date -format 'yyyyMMddhhmmss').txt"
 
 "Computername: $env:computername" | out-string | out-file -append $outputfile -encoding ascii
 
+$OSBitness = 32 #Default
 If (!$RunningOnWindows)
 {
-'Windows security token information for this process: ' | out-file -append $outputfile -encoding ascii
-whoami /all | out-file -append $outputfile -encoding ascii
+  'Windows security token information for this process: ' | out-file -append $outputfile -encoding ascii
+  whoami /all | out-file -append $outputfile -encoding ascii
 
-'Parent process for this process: ' | out-file -append $outputfile -encoding ascii
-get-process -id (Get-WmiObject -Query "select * from Win32_Process where Handle=$pid" ).Parentprocessid | select * | fl >> $outputfile
+  'Parent process for this process: ' | out-file -append $outputfile -encoding ascii
+  get-process -id (Get-WmiObject -Query "select * from Win32_Process where Handle=$pid" ).Parentprocessid | select * | fl >> $outputfile
+
+  If ((uname -u) -ilike '*64*')
+  {$OSBitness = 64}
+
 }
+Else
+{
+  If ($env:PROCESSOR_ARCHITECTURE -ilike '*64*')
+  {$OSBitness = 64}
+}
+
+$PROCBitness = 32 #Default
+If ([System.IntPtr]::Size -eq 8)
+{
+  $PROCBitness = 64
+}
+
+'Bitness / Architecture of the   OS    PowerShell is running on: $OSBitness' | out-file -append $outputfile -encoding ascii
+
+'Bitness / Architecture of the PROCESS PowerShell is running in: $ProcBitness' | out-file -append $outputfile -encoding ascii
 
 'PowerShell Invocation Object for this process: ' | out-file -append $outputfile -encoding ascii
 $myinvocation | out-string | out-file -append $outputfile -encoding ascii
