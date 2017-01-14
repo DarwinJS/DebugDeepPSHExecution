@@ -61,9 +61,9 @@ If ([System.IntPtr]::Size -eq 8)
   $PROCBitness = 64
 }
 
-'Bitness / Architecture of the   OS    PowerShell is running on: $OSBitness' | out-file -append $outputfile -encoding ascii
+"Bitness / Architecture of the   OS    PowerShell is running on: $OSBitness" | out-file -append $outputfile -encoding ascii
 
-'Bitness / Architecture of the PROCESS PowerShell is running in: $ProcBitness' | out-file -append $outputfile -encoding ascii
+"Bitness / Architecture of the PROCESS PowerShell is running in: $ProcBitness" | out-file -append $outputfile -encoding ascii
 
 'PowerShell Invocation Object for this process: ' | out-file -append $outputfile -encoding ascii
 $myinvocation | out-string | out-file -append $outputfile -encoding ascii
