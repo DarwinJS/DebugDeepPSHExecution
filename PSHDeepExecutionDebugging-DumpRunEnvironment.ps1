@@ -81,3 +81,5 @@ gci env: | out-string | out-file -append $outputfile -encoding ascii
 gci variable: | out-string | out-file -append $outputfile -encoding ascii
 
 Write-Output "Environment Details were output to: $outputfile"
+
+Get-content $outputfile
