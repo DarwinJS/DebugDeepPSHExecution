@@ -31,6 +31,12 @@ Some of these problems are made worse if PowerShell is running as part of operat
 * PSHDeepExecutionDebugging-DumpRunEnvironment.ps1
   * Tested On: Windows and Linux
   * Usage: Run on it's own as a "script" or "job" in the deep execution context and examine the output.
+  * Purpose: Dumps a variety of information such as environment variables, bitness, PowerShell variables, parent process and others to a text file.
+  * Description: Used to discover many details about the run environment.  In the perfect world I would run this as the first script when trying to run PowerShell in a new run context for the first time, but I usually end up running it after my powershell code acts in unexpected ways.
+* PSHDeepExecutionDebugging-ErrorTrapping.ps1
+  * Tested On: Windows and Linux
+  * Usage: Add to existing code that is failing with an error that is hard to diagnose, examine the output of the full .net error object.  This code can be left in place as your primary error trapping for deep execution powershell.
+  * Purpose: Dumps a variety of information such as environment variables, bitness, PowerShell variables, parent process and others to a text file.
   * Description: Used to discover many details about the run environment.  In the perfect world I would run this as the first script when trying to run PowerShell in a new run context for the first time, but I usually end up running it after my powershell code acts in unexpected ways.
 * PSHDeepExecutionDebugging-EnableGlobalTranscriptLogging.ps1
-* PSHDeepExecutionDebugging-ErrorTrapping.ps1
+
