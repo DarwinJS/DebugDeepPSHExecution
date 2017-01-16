@@ -26,6 +26,8 @@ Some of these problems are made worse if PowerShell is running as part of operat
 * **Unexpected or unknown dynamic code execution**: some exes may contain and dynamically execute PowerShell code.
 * **Unexpected or unknown reboot pending**: especially in cases where a machine build is laying down many subsequent layers of software and configuration changes, conditions can arise where a pending reboot affects deep execution more than foreground execution.  These conditions may give rise to requiring a reboot only when executing in the deep call stack.  Here the same example of system path changes or other environment variable changes not propagating until reboot also apply.  I have also seen situations where the WebAdministration PowerShell module can only be loaded at it's full path location, not with a relative reference when trying to use it immediately after installing the web-server feature.
 * **Unexpected or unknown PowerShell engine hosting**: for instance, Chocolatey 0.10.0 and later defaults to hosting powershell itself, rather than handing off to "powershell.exe" to be the PowerShell host.
+* **Unexpected or unknown security**: for instance, the user id executing PowerShell was added to a group, but was not re-logged on for that group membership to become active in the current process token or under Windows a lack of elevated admin rights when the code requires it.
+
 
 #The Scripts
 * PSHDeepExecutionDebugging-DumpRunEnvironment.ps1
@@ -39,4 +41,3 @@ Some of these problems are made worse if PowerShell is running as part of operat
   * Purpose: Dumps a variety of information such as environment variables, bitness, PowerShell variables, parent process and others to a text file.
   * Description: Used to discover many details about the run environment.  In the perfect world I would run this as the first script when trying to run PowerShell in a new run context for the first time, but I usually end up running it after my powershell code acts in unexpected ways.
 * PSHDeepExecutionDebugging-EnableGlobalTranscriptLogging.ps1
-
