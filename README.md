@@ -30,6 +30,10 @@ Some of these problems are made worse if PowerShell is running as part of operat
 
 
 #The Scripts
+Compatibility Targets: PowerShell Core on Linux and Nano Server and Full PowerShell on Windows.
+Whenever relevant these scripts are created to work on PowerShell for Windows and PowerShell Core for Linux and OSX (tested on CentOS).  This means they also contain some cool methods for detecting and accommodating running on non-windows targets under PowerShell Core.
+This also means they are compatible with Nano Server as there are certain coding PowerShell techniques that do not work well on Nano
+
 * PSHDeepExecutionDebugging-DumpRunEnvironment.ps1
   * Tested On: Windows and Linux
   * Usage: Run on it's own as a "script" or "job" in the deep execution context and examine the output.
@@ -38,6 +42,10 @@ Some of these problems are made worse if PowerShell is running as part of operat
 * PSHDeepExecutionDebugging-ErrorTrapping.ps1
   * Tested On: Windows and Linux
   * Usage: Add to existing code that is failing with an error that is hard to diagnose, examine the output of the full .net error object.  This code can be left in place as your primary error trapping for deep execution powershell.
-  * Purpose: Dumps a variety of information such as environment variables, bitness, PowerShell variables, parent process and others to a text file.
-  * Description: Used to discover many details about the run environment.  In the perfect world I would run this as the first script when trying to run PowerShell in a new run context for the first time, but I usually end up running it after my powershell code acts in unexpected ways.
+  * Purpose: Dumps the entire PowerShell $Error variable to a text file - many times this gives critical clues that allow nearly immediate identification of the cause or where to start looking for the cause.
+  * Description: Can be left in place as primary error handling for deep execution scripts.
 * PSHDeepExecutionDebugging-EnableGlobalTranscriptLogging.ps1
+  * Tested On: Windows (PowerShell Core does not support policies on non-windows)
+  * Usage: Run as admin on a machine to enable transcription (does not need to run in same context as the scripts you want to debug)
+  * Purpose: Enables PowerShell global transcription which allows logging of PowerShell execution in any context.
+  * Description: Used to discover many details about the run environment.
