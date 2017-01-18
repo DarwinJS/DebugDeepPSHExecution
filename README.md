@@ -3,7 +3,7 @@ PowerShell is frequently the last mile worker at the coal face - 5 miles out in 
 
 The breadth of Windows automation available through PowerShell results in it being embedded into almost every windows automation tooling stack - even when PowerShell is not the primary orchestration technology.  
 
-Whether you are using configuration management like Chef, Puppet, Ansible or Salt or a Continuous Deployment tool such as Team City, TFS or Octopus or cloud orchestration such as Cloud Foundry or Cloud Formation or even a traditional ops tool like Systems Center - at some point, somewhere you will be compelled to call PowerShell.
+Whether you are using configuration management like Chef, Puppet, Ansible or Salt or a continuous deployment tool such as Team City, TFS or Octopus or cloud orchestration such as Cloud Foundry or Cloud Formation or even a traditional ops tool like Systems Center - at some point, somewhere you will be compelled to call PowerShell.
 
 Being at the end of a deep call stack of automation technologies is the daily norm for PowerShell, but it can make troubleshooting and debugging problems difficult for the automation developer.
 
