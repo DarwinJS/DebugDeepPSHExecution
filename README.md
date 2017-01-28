@@ -26,6 +26,13 @@ Below is a list of challenges that can be uncovered with these scripts.  These a
 
 Some of these problems are made worse if PowerShell is running as part of operating System or software deployment automation.  There can also be special conditions on the first Windows bootup.
 
+#Versus PowerShell 5 Remote Debugging Features
+PowerShell 5 has some excellent remote debugging capabilities for finding out what's going on when things get really weird (https://youtu.be/dxXMwzWlJgA). These scripts are still very helpful because:
+* They work for older versions of PowerShell and PowerShell Core on Linux/OSX.
+* They are easy and obvious to use when you have not had exposure to the PowerShell debugger.
+* They are helpful when PowerShell is executing in an environment which you cannot (or cannot easily) get to with PowerShell remoting.  This is sometimes to security boundaries or the inability to get a cloud instance of Windows in a network local or security relationship with the node you need to debug.  You may not have a way to pause the surrounding orchestrating automation.  Etc, etc, etc.
+* These scripts can be a good first attempt at finding the information you need before resorting to full on remote debugging.
+
 #My List of the Unexpected
 * **Unexpected / unknown / misconfigured execution bitness**: script executes as 32-bit when expecting 64-bit or vice versa. Some execution agents may be coded to specifically choose a bitness.  Execution under services will default to the bitness of the service - for instance SCCM 2012 "Package" objects run as 32-bit and "Application" objects run as 64-bit.  Many management agents for Windows are 32-bit even when installed on 64-bit Windows.
 * **Unexpected / unknown / misconfigured user context**: script is executed by a user id that you are not expecting - for instance, cloud formation initiates scripts to run under the "Administrator" user even though the ec2config service runs under the system account.  Machine group policies run as the system account.
