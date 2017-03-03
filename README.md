@@ -1,3 +1,12 @@
+#PowerShell Execution Is Frequently Buried Deep
+PowerShell is frequently the last mile worker at the coal face - 5 miles out in a tunnel at the bottom of a mine shaft. 
+
+This is because the breadth of Windows automation available through PowerShell results in it being embedded into almost every windows automation tooling stack - even when PowerShell is not the primary orchestration technology.  
+
+Whether you are using configuration management like Chef, Puppet, Ansible or Salt or a continuous deployment tool such as Team City, TFS or Octopus or cloud orchestration such as Cloud Foundry or Cloud Formation or even a traditional ops tool like Systems Center - at some point, somewhere you will be compelled to call PowerShell.
+
+Being at the end of a deep call stack of automation technologies is the daily norm for PowerShell, but it can make troubleshooting and debugging problems difficult for the automation developer.
+
 #Blind Debugging of Deep PowerShell Execution
 
 It can be pretty frustrating to try to debug or diagnose PowerShell code that that is initiated in call stacks like these:
@@ -13,10 +22,19 @@ There can be a variety of unexpected things about these execution contexts that 
 
 In my experience, I spend a disproportionate amount of time initially learning the tricks and limitations of a new runtime environment - once I know them, the problems with new code are much less frequent.
 
-Below is a list of challenges that can be uncovered with these scripts.  These are not theoretical challenges - I have personally experienced many of them.  In most cases finding these items was a surprise.  I don't use the list as a set of hypothesis.  Instead, my hypothesis is simply "if it is a deep or blind execution context - something unexpected might be happening"  Then I just start dumping information and ensuring I can record errors and look through.
+Below is a list of challenges that can be uncovered with these scripts.  These are not theoretical challenges - I have personally experienced many of them.  In most cases finding these items was a surprise.  I don't use the list as a set of hypothesis.  Instead, my hypothesis is simply "if it is a deep or blind execution context - something unexpected might be happening"  Then I just start dumping information and ensuring I can record errors and look through the data - many times the problem is easy to spot when I have this kind of visibility into the execution environment and errors.
 
-Some of these problems are made worse if PowerShell is running as part of operating System or software deployment automation.  There can be special conditions on the first reboot.
+Some of these problems are made worse if PowerShell is running as part of operating System or software deployment automation.  There can also be special conditions on the first Windows bootup.
 
+#Versus PowerShell 5 Remote Debugging Features
+PowerShell 5 has some excellent remote debugging capabilities for finding out what's going on when things get really weird (https://youtu.be/dxXMwzWlJgA). These scripts are still very helpful because:
+* They work for older versions of PowerShell and PowerShell Core on Linux/OSX.
+* They are easy and obvious to use when you have not had exposure to the PowerShell debugger.
+* They are helpful when PowerShell is executing in an environment which you cannot (or cannot easily) get to with PowerShell remoting.  This is sometimes due to security boundaries or the inability to get a cloud instance of Windows in a common network, security or firewall context with the node you need to debug.  You may not have a way to pause the surrounding orchestrating automation.  Etc, etc, etc.
+* Even when you are confortable with remote debugging and are running PowerShell 5, these scripts can be a good first attempt at finding the information you need before resorting to full on remote debugging.
+* The trap code is designed to be left in your code permanently for debugging.
+
+#My List of the Unexpected
 * **Unexpected / unknown / misconfigured execution bitness**: script executes as 32-bit when expecting 64-bit or vice versa. Some execution agents may be coded to specifically choose a bitness.  Execution under services will default to the bitness of the service - for instance SCCM 2012 "Package" objects run as 32-bit and "Application" objects run as 64-bit.  Many management agents for Windows are 32-bit even when installed on 64-bit Windows.
 * **Unexpected / unknown / misconfigured user context**: script is executed by a user id that you are not expecting - for instance, cloud formation initiates scripts to run under the "Administrator" user even though the ec2config service runs under the system account.  Machine group policies run as the system account.
 * **Unexpected absence of environment variables**: when powershell runs under specific contexts, such as under a service or a special system account, some normally expected environment variables may not be present.  Path environment variable changes (and others) only propagate to services and some system contexts after a service restart or system reboot (because the service manager only gets a new read on environment variables on a restart).
@@ -48,7 +66,7 @@ This also means they are compatible with Nano Server as there are certain coding
   * Tested On: Windows (PowerShell Core does not support policies on non-windows)
   * Usage: Run as admin on a machine to enable transcription (does not need to run in same context as the scripts you want to debug)
   * Purpose: Enables PowerShell global transcription which allows logging of PowerShell execution in any context.
-  * Description: Used to discover many details about the run environment.
+  * Description: Used to discover problems and errors with deep execution scenarios.
 * PSHDeepExecutionDebugging-AutomaticProcmonTrace.ps1
   * Tested On: Windows R2 Under CloudFormation
   * Usage: Start and stop procmon tracing with monitored code executing in between.
