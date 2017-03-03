@@ -49,3 +49,8 @@ This also means they are compatible with Nano Server as there are certain coding
   * Usage: Run as admin on a machine to enable transcription (does not need to run in same context as the scripts you want to debug)
   * Purpose: Enables PowerShell global transcription which allows logging of PowerShell execution in any context.
   * Description: Used to discover many details about the run environment.
+* PSHDeepExecutionDebugging-AutomaticProcmonTrace.ps1
+  * Tested On: Windows R2 Under CloudFormation
+  * Usage: Start and stop procmon tracing with monitored code executing in between.
+  * Purpose: Enables procmon tracing for a subset of a complex automation / orchestration stack where you cannot simply pause the process and manually execute procmon
+  * Description: Get detailed procmon tracing of these events
