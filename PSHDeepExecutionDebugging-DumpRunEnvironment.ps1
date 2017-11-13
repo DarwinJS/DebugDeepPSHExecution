@@ -117,13 +117,19 @@ Write-Log $psversiontable
 Write-Log 'PowerShell Host Object for this process: '
 Write-Log $host
 
-Write-Log 'Environment variables for this process: '
-Write-Log $(gci env: | out-string)
+Write-Log 'Detailed User Info for PowerShell Process User:'
+Write-Log $loggedonuserdetails
 
 Write-Log 'PowerShell variables for this process: '
 Write-Log $(gci variable: | out-string)
 
-Write-Log 'Detailed User Info for PowerShell Process User:'
-Write-Log $loggedonuserdetails
+Write-Log 'Environment variables for this process: '
+Write-Log $(gci env: | out-string)
+
+Write-Log 'Unresolved Environment variables for the MACHINE level (from Registry):'
+Write-Log $([environment]::GetEnvironmentVariables("Machine"))
+
+Write-Log 'Unresolved Environment variables for the USER level (from Registry) (over rides machine if a variable appears in machine as well): '
+Write-Log $([environment]::GetEnvironmentVariables("User"))
 
 Write-output (Get-content $outputfile)  #emit all the data in case the calling system is smart enough to record it directly.
