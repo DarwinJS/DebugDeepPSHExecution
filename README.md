@@ -1,4 +1,5 @@
-#PowerShell Execution Is Frequently Buried Deep
+# PowerShell Execution Is Frequently Buried Deep
+
 PowerShell is frequently the last mile worker at the coal face - 5 miles out in a tunnel at the bottom of a mine shaft. 
 
 This is because the breadth of Windows automation available through PowerShell results in it being embedded into almost every windows automation tooling stack - even when PowerShell is not the primary orchestration technology.  
@@ -7,7 +8,7 @@ Whether you are using configuration management like Chef, Puppet, Ansible or Sal
 
 Being at the end of a deep call stack of automation technologies is the daily norm for PowerShell, but it can make troubleshooting and debugging problems difficult for the automation developer.
 
-#Blind Debugging of Deep PowerShell Execution
+# Blind Debugging of Deep PowerShell Execution
 
 It can be pretty frustrating to try to debug or diagnose PowerShell code that that is initiated in call stacks like these:
 * Packer => Remote Execution => PowerShell
@@ -26,7 +27,8 @@ Below is a list of challenges that can be uncovered with these scripts.  These a
 
 Some of these problems are made worse if PowerShell is running as part of operating System or software deployment automation.  There can also be special conditions on the first Windows bootup.
 
-#Versus PowerShell 5 Remote Debugging Features
+# Versus PowerShell 5 Remote Debugging Features
+
 PowerShell 5 has some excellent remote debugging capabilities for finding out what's going on when things get really weird (https://youtu.be/dxXMwzWlJgA). These scripts are still very helpful because:
 * They work for older versions of PowerShell and PowerShell Core on Linux/OSX.
 * They are easy and obvious to use when you have not had exposure to the PowerShell debugger.
@@ -34,7 +36,8 @@ PowerShell 5 has some excellent remote debugging capabilities for finding out wh
 * Even when you are confortable with remote debugging and are running PowerShell 5, these scripts can be a good first attempt at finding the information you need before resorting to full on remote debugging.
 * The trap code is designed to be left in your code permanently for debugging.
 
-#My List of the Unexpected
+# My List of the Unexpected
+
 * **Unexpected / unknown / misconfigured execution bitness**: script executes as 32-bit when expecting 64-bit or vice versa. Some execution agents may be coded to specifically choose a bitness.  Execution under services will default to the bitness of the service - for instance SCCM 2012 "Package" objects run as 32-bit and "Application" objects run as 64-bit.  Many management agents for Windows are 32-bit even when installed on 64-bit Windows.
 * **Unexpected / unknown / misconfigured user context**: script is executed by a user id that you are not expecting - for instance, cloud formation initiates scripts to run under the "Administrator" user even though the ec2config service runs under the system account.  Machine group policies run as the system account.
 * **Unexpected absence of environment variables**: when powershell runs under specific contexts, such as under a service or a special system account, some normally expected environment variables may not be present.  Path environment variable changes (and others) only propagate to services and some system contexts after a service restart or system reboot (because the service manager only gets a new read on environment variables on a restart).
@@ -47,7 +50,8 @@ PowerShell 5 has some excellent remote debugging capabilities for finding out wh
 * **Unexpected or unknown security**: for instance, the user id executing PowerShell was added to a group, but was not re-logged on for that group membership to become active in the current process token or under Windows a lack of elevated admin rights when the code requires it.
 
 
-#The Scripts
+# The Scripts
+
 Compatibility Targets: PowerShell Core on Linux and Nano Server and Full PowerShell on Windows.
 Whenever relevant these scripts are created to work on PowerShell for Windows and PowerShell Core for Linux and OSX (tested on CentOS).  This means they also contain some cool methods for detecting and accommodating running on non-windows targets under PowerShell Core.
 This also means they are compatible with Nano Server as there are certain coding PowerShell techniques that do not work well on Nano
